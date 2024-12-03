@@ -5,6 +5,9 @@ from routes import api_bp
 from seed_data import seed_database
 from sqlalchemy_utils import database_exists, create_database
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def create_app():
