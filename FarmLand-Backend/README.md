@@ -290,7 +290,7 @@ DELETE /api/schedules/<schedule_id>
 
 - id (Primary Key)
 - days_after_sowing (Integer)
-- fertilizer_type (String)
+- fertilizer_type (String) (Accepts only 'Urea', 'DAP', 'Micronutrient', 'NPK')
 - quantity (Float)
 - quantity_unit (Enum: 'ton', 'kg', 'g', 'L', 'mL')
 - farm_id (Foreign Key)
