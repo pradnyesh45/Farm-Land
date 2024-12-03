@@ -4,13 +4,17 @@ from flask_migrate import Migrate
 from routes import api_bp
 from seed_data import seed_database
 from sqlalchemy_utils import database_exists, create_database
+import os
 
 
 def create_app():
     app = Flask(__name__)
 
     # Database Configuration
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://pradnyeshaglawe:password123@localhost:5432/farmer_db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
+        'DATABASE_URL',
+        'postgresql://postgres:password123@localhost:5432/farmer_db'
+    ) 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     if not database_exists(app.config['SQLALCHEMY_DATABASE_URI']):
@@ -37,4 +41,4 @@ def create_app():
 
 if __name__ == "__main__":
     app = create_app()
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
