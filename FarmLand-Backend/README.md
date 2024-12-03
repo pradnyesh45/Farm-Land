@@ -33,8 +33,8 @@ GET /api/farmers
 [
   {
     "id": 1,
-    "name": "John Doe",
-    "phone_number": "1234567890",
+    "name": "Prashant Kumar",
+    "phone_number": "9876543210",
     "language": "Hindi"
   }
 ]
@@ -52,7 +52,7 @@ GET /api/farmers/by-crop/<crop_name>
 [
   {
     "farmer_id": 1,
-    "farmer_name": "John Doe"
+    "farmer_name": "Prashant Kumar"
   }
 ]
 ```
@@ -67,8 +67,8 @@ POST /api/farmers
 
 ```json
 {
-  "name": "John Doe",
-  "phone_number": "1234567890",
+  "name": "Prashant Kumar",
+  "phone_number": "9876543210",
   "language": "Hindi"
 }
 ```
@@ -90,6 +90,37 @@ DELETE /api/farmers/<farmer_id>
 ```
 
 **Response**: `200 OK`
+
+#### 6. Get Farmer's Bill
+
+```
+GET /api/farmers/<farmer_id>/bill
+```
+
+**Response**: `200 OK`
+
+```json
+{
+  "farmer_id": "1",
+  "farms": [
+    {
+      "farm_id": 1,
+      "village": "Gorakhpur",
+      "crop": "Wheat",
+      "fertilizer_type": "Urea",
+      "cost": 1000
+    }
+  ]
+}
+```
+
+**Error Response**: `404 Not Found`
+
+```json
+{
+  "error": "No farms or schedules found for this farmer"
+}
+```
 
 ### Farms
 
@@ -187,7 +218,7 @@ GET /api/schedules/due
     "schedule_id": 1,
     "farm_id": 1,
     "farmer_id": 1,
-    "farmer_name": "John Doe",
+    "farmer_name": "Prashant Kumar",
     "farm_village": "Gorakhpur",
     "farm_crop_grown": "Wheat",
     "due_date": "2024-12-31"
