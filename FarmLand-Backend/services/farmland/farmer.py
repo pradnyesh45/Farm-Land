@@ -91,3 +91,11 @@ class FarmerService:
     @staticmethod
     def get_farmers_by_crop(crop_type: str) -> List[FarmerHelper]:
         return FarmerRepository.get_farmers_by_crop(crop_type)
+
+    @staticmethod
+    def delete_farmer(farmer_id: int) -> None:
+        farmer = FarmerRepository.get_by_id(farmer_id)
+        if not farmer:
+            raise Exception(FarmerHelper.Errors.FARMER_NOT_FOUND)
+        
+        FarmerRepository.delete(farmer_id)

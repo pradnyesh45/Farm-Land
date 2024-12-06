@@ -38,3 +38,10 @@ class UserRepository:
         if model and model.check_password(password):
             return UserMapper.to_helper(model)
         return None
+
+    @staticmethod
+    def delete(user_id: int) -> None:
+        user = UserModel.query.get(user_id)
+        if user:
+            PostgresUtils.db.session.delete(user)
+            PostgresUtils.db.session.commit()

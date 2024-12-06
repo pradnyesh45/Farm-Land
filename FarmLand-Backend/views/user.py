@@ -106,3 +106,31 @@ def get_all_users():
         return ApiUtils.get_api_response(api_response)
     except Exception as error:
         return ApiUtils.get_error_response(error)
+
+@user_view.route('/users/<int:user_id>', methods=['DELETE'])
+@authentication_middleware(AuthEntityType.ADMIN)
+def delete_user(user_id):
+    try:
+        UserService.delete_user(user_id)
+        
+        api_response = ApiResponse(
+            data=None,
+            msg=f"User with ID {user_id} deleted successfully"
+        )
+        return ApiUtils.get_api_response(api_response)
+    except Exception as error:
+        return ApiUtils.get_error_response(error)
+
+@user_view.route('/users/admin/<int:admin_id>', methods=['DELETE'])
+@authentication_middleware(AuthEntityType.SUPER_USER)
+def delete_admin(admin_id):
+    try:
+        UserService.delete_admin(admin_id)
+        
+        api_response = ApiResponse(
+            data=None,
+            msg=f"Admin with ID {admin_id} deleted successfully"
+        )
+        return ApiUtils.get_api_response(api_response)
+    except Exception as error:
+        return ApiUtils.get_error_response(error)

@@ -37,13 +37,18 @@ def create_farmer():
 @authentication_middleware(AuthEntityType.ADMIN)
 def update_farmer(farmer_id):
     try:
+        # Get existing farmer
+        existing_farmer = FarmerService.get_farmer_by_id(farmer_id)
         request_data = request.get_json()
+        
+        # Update only provided fields
         farmer = FarmerHelper(
             id=farmer_id,
-            phone_number=request_data['phone_number'],
-            name=request_data['name'],
-            language=request_data['language']
+            phone_number=request_data.get('phone_number', existing_farmer.phone_number),
+            name=request_data.get('name', existing_farmer.name),
+            language=request_data.get('language', existing_farmer.language)
         )
+        
         updated_farmer = FarmerService.update_farmer(farmer)
         
         api_response = ApiResponse(
@@ -64,6 +69,7 @@ def update_farmer(farmer_id):
 def get_farmer(farmer_id):
     try:
         farmer = FarmerService.get_farmer_by_id(farmer_id)
+        print(f"farmer: {farmer}")
         
         api_response = ApiResponse(
             data={
@@ -130,6 +136,20 @@ def get_farmers_by_crop(crop_type):
         api_response = ApiResponse(
             data=farmer_list,
             msg=f"Farmers growing {crop_type} retrieved successfully"
+        )
+        return ApiUtils.get_api_response(api_response)
+    except Exception as error:
+        return ApiUtils.get_error_response(error)
+
+@farmer_view.route('/farmers/<int:farmer_id>', methods=['DELETE'])
+@authentication_middleware(AuthEntityType.ADMIN)
+def delete_farmer(farmer_id):
+    try:
+        FarmerService.delete_farmer(farmer_id)
+        
+        api_response = ApiResponse(
+            data=None,
+            msg=f"Farmer with ID {farmer_id} deleted successfully"
         )
         return ApiUtils.get_api_response(api_response)
     except Exception as error:

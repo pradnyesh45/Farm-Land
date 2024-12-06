@@ -103,3 +103,10 @@ class ScheduleRepository:
         ).all()
         
         return farm_schedules
+
+    @staticmethod
+    def delete(schedule_id: int) -> None:
+        schedule = ScheduleModel.query.get(schedule_id)
+        if schedule:
+            PostgresUtils.db.session.delete(schedule)
+            PostgresUtils.db.session.commit()

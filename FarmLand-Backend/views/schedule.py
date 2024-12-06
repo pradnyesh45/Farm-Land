@@ -43,15 +43,20 @@ def create_schedule():
 @authentication_middleware(AuthEntityType.ADMIN)
 def update_schedule(schedule_id):
     try:
+        # Get existing schedule
+        existing_schedule = ScheduleService.get_schedule_by_id(schedule_id)
         request_data = request.get_json()
+        
+        # Update only provided fields
         schedule = ScheduleHelper(
             id=schedule_id,
-            farm_id=request_data['farm_id'],
-            days_after_sowing=request_data['days_after_sowing'],
-            fertilizer_type=request_data['fertilizer_type'],
-            quantity=request_data['quantity'],
-            quantity_unit=request_data['quantity_unit']
+            farm_id=request_data.get('farm_id', existing_schedule.farm_id),
+            days_after_sowing=request_data.get('days_after_sowing', existing_schedule.days_after_sowing),
+            fertilizer_type=request_data.get('fertilizer_type', existing_schedule.fertilizer_type),
+            quantity=request_data.get('quantity', existing_schedule.quantity),
+            quantity_unit=request_data.get('quantity_unit', existing_schedule.quantity_unit)
         )
+        
         updated_schedule = ScheduleService.update_schedule(schedule)
         
         api_response = ApiResponse(
@@ -213,6 +218,20 @@ def get_due_schedules():
         api_response = ApiResponse(
             data=schedule_data,
             msg="Due schedules for today and tomorrow retrieved successfully"
+        )
+        return ApiUtils.get_api_response(api_response)
+    except Exception as error:
+        return ApiUtils.get_error_response(error)
+
+@schedule_view.route('/schedules/<int:schedule_id>', methods=['DELETE'])
+@authentication_middleware(AuthEntityType.ADMIN)
+def delete_schedule(schedule_id):
+    try:
+        ScheduleService.delete_schedule(schedule_id)
+        
+        api_response = ApiResponse(
+            data=None,
+            msg=f"Schedule with ID {schedule_id} deleted successfully"
         )
         return ApiUtils.get_api_response(api_response)
     except Exception as error:

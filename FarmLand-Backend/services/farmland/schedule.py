@@ -59,3 +59,11 @@ class ScheduleService:
         start_date = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
         end_date = start_date + timedelta(days=days)
         return ScheduleRepository.get_due_schedules(start_date, end_date)
+
+    @staticmethod
+    def delete_schedule(schedule_id: int) -> None:
+        schedule = ScheduleRepository.get_by_id(schedule_id)
+        if not schedule:
+            raise Exception(ScheduleHelper.Errors.SCHEDULE_NOT_FOUND)
+        
+        ScheduleRepository.delete(schedule_id)

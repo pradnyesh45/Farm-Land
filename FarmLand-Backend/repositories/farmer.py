@@ -61,3 +61,10 @@ class FarmerRepository:
         ).distinct().all()
         
         return FarmerMapper.to_helper_list(farmers)
+
+    @staticmethod
+    def delete(farmer_id: int) -> None:
+        farmer = FarmerModel.query.get(farmer_id)
+        if farmer:
+            PostgresUtils.db.session.delete(farmer)
+            PostgresUtils.db.session.commit()
