@@ -1,33 +1,58 @@
 version: "3.8"
 
 services:
-  farmland-backend:
-    build: ./FarmLand-Backend
-    container_name: farmland-backend
-    ports:
-      - "5000:5000"
-    environment:
-      - DATABASE_URL=postgresql://postgres:password123@db:5432/farmer_db
-    depends_on:
-      db:
-        condition: service_healthy
-
   db:
     image: postgres:13
-    container_name: postgres-db
     environment:
+      - POSTGRES_DB=farmer_db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password123
-      - POSTGRES_DB=farmer_db
-    ports:
-      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - farmland-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
+      interval: 10s
       timeout: 5s
       retries: 5
+    deploy:
+      placement:
+        constraints:
+          - "node.role==manager"
+
+  farmland-backend:
+    image: farmland-backend
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://postgres:password123@db:5432/farmer_db
+    networks:
+      - farmland-network
+    deploy:
+      replicas: 2
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  nginx:
+    image: farmland-nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - farmland-backend
+    networks:
+      - farmland-network
+    deploy:
+      replicas: 1
+
+networks:
+  farmland-network:
+    driver: overlay
+    attachable: true
 
 volumes:
   postgres_data:
+    driver: local

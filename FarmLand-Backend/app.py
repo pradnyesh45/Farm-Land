@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_jwt_extended import JWTManager
 from utils.postgres import PostgresUtils
 from flask_migrate import Migrate
@@ -11,6 +11,7 @@ from seed_data import seed_database
 import os
 from dotenv import load_dotenv
 import logging
+from sqlalchemy import text
 
 # Configure logging
 logging.basicConfig(
@@ -44,6 +45,14 @@ def create_app():
     app.register_blueprint(farm_view, url_prefix='/api')
     app.register_blueprint(schedule_view, url_prefix='/api')
 
+    @app.route('/health')
+    def health_check():
+        try:
+            PostgresUtils.db.session.execute(text('SELECT 1'))
+            return jsonify({'status': 'healthy'}), 200
+        except Exception as e:
+            return jsonify({'status': 'unhealthy', 'error': str(e)}), 500
+
     return app
 
 if __name__ == "__main__":
@@ -54,4 +63,4 @@ if __name__ == "__main__":
             print("Database created")
         PostgresUtils.db.create_all()
         seed_database()  # Ensure initial data is seeded
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', port=5000)
