@@ -42,6 +42,7 @@ class FarmRepository:
         model.village = helper.village
         model.area = helper.area
         model.crop_grown = helper.crop_grown
+        model.sowing_date = helper.sowing_date
         
         try:
             PostgresUtils.db.session.commit()

@@ -20,6 +20,7 @@ export class FarmManagementComponent implements OnInit {
     village: '',
     area: null,
     crop_grown: '',
+    sowing_date: '',
   };
   editingFarm: any = null;
   isLoading = false;
@@ -41,6 +42,7 @@ export class FarmManagementComponent implements OnInit {
     this.farmService.getAllFarms().subscribe({
       next: (response: any) => {
         this.farms = response.data;
+        console.log(this.farms);
       },
       error: (error: any) => {
         this.error = error.error?.msg || 'Failed to load farms';
@@ -69,7 +71,8 @@ export class FarmManagementComponent implements OnInit {
       !this.currentFarm.farmer_id ||
       !this.currentFarm.village ||
       !this.currentFarm.area ||
-      !this.currentFarm.crop_grown
+      !this.currentFarm.crop_grown ||
+      !this.currentFarm.sowing_date
     ) {
       this.error = 'Please fill in all fields';
       return;
@@ -105,6 +108,7 @@ export class FarmManagementComponent implements OnInit {
       village: farm.village,
       area: farm.area,
       crop_grown: farm.crop_grown,
+      sowing_date: farm.sowing_date,
     };
   }
 
@@ -132,6 +136,7 @@ export class FarmManagementComponent implements OnInit {
       village: '',
       area: null,
       crop_grown: '',
+      sowing_date: '',
     };
     this.editingFarm = null;
     this.error = '';

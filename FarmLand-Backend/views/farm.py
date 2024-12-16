@@ -18,7 +18,8 @@ def create_farm():
             farmer_id=request_data['farmer_id'],
             village=request_data['village'],
             area=float(request_data['area']),
-            crop_grown=request_data['crop_grown']
+            crop_grown=request_data['crop_grown'],
+            sowing_date=datetime.fromisoformat(request_data['sowing_date']).date()
         )
         created_farm = FarmService.create_farm(farm)
         
@@ -28,7 +29,8 @@ def create_farm():
                 'farmer_id': created_farm.farmer_id,
                 'village': created_farm.village,
                 'area': created_farm.area,
-                'crop_grown': created_farm.crop_grown
+                'crop_grown': created_farm.crop_grown,
+                'sowing_date': created_farm.sowing_date.isoformat()
             },
             msg="Farm created successfully"
         )
@@ -97,7 +99,8 @@ def get_farm(farm_id):
                 'farmer_id': farm.farmer_id,
                 'village': farm.village,
                 'area': farm.area,
-                'crop_grown': farm.crop_grown
+                'crop_grown': farm.crop_grown,
+                'sowing_date': farm.sowing_date.isoformat()
             },
             msg="Farm retrieved successfully"
         )
@@ -115,7 +118,8 @@ def get_farmer_farms(farmer_id):
             'farmer_id': farm.farmer_id,
             'village': farm.village,
             'area': farm.area,
-            'crop_grown': farm.crop_grown
+            'crop_grown': farm.crop_grown,
+            'sowing_date': farm.sowing_date.isoformat()
         } for farm in farms]
         
         api_response = ApiResponse(
@@ -136,7 +140,8 @@ def get_all_farms():
             'farmer_id': farm.farmer_id,
             'village': farm.village,
             'area': farm.area,
-            'crop_grown': farm.crop_grown
+            'crop_grown': farm.crop_grown,
+            'sowing_date': farm.sowing_date.isoformat()
         } for farm in farms]
         
         api_response = ApiResponse(
