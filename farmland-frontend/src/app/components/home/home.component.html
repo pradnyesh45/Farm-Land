@@ -1,0 +1,68 @@
+<div class="dashboard">
+  <h2>Farm Management Dashboard</h2>
+
+  <div class="nav-cards">
+    <a routerLink="/schedules/due" class="card">
+      <h3>Due Schedules</h3>
+      <p>View fertilizer schedules due today and tomorrow</p>
+    </a>
+
+    <a routerLink="/farmers/by-crop" class="card">
+      <h3>Farmers by Crop</h3>
+      <p>Search farmers by crop type</p>
+    </a>
+
+    <a routerLink="/farmers/search" class="card">
+      <h3>Farmer Bills</h3>
+      <p>View all farmers and their bills</p>
+    </a>
+
+    <a
+      routerLink="/farmers/manage"
+      class="card"
+      *ngIf="
+        authService.getUserRole() === 'Admin' ||
+        authService.getUserRole() === 'SuperUser'
+      "
+    >
+      <h3>Farmer Management</h3>
+      <p>Add, edit, or remove farmers</p>
+    </a>
+
+    <a
+      routerLink="/farms/manage"
+      class="card"
+      *ngIf="
+        authService.getUserRole() === 'Admin' ||
+        authService.getUserRole() === 'SuperUser'
+      "
+    >
+      <h3>Farm Management</h3>
+      <p>Add, edit, or remove farms</p>
+    </a>
+
+    <a
+      routerLink="/schedules/manage"
+      class="card"
+      *ngIf="
+        authService.getUserRole() === 'Admin' ||
+        authService.getUserRole() === 'SuperUser'
+      "
+    >
+      <h3>Schedule Management</h3>
+      <p>Add, edit, or remove schedules</p>
+    </a>
+
+    <a
+      routerLink="/users/manage"
+      class="card"
+      *ngIf="
+        authService.getUserRole() === 'Admin' ||
+        authService.getUserRole() === 'SuperUser'
+      "
+    >
+      <h3>User Management</h3>
+      <p>Create and manage user accounts</p>
+    </a>
+  </div>
+</div>

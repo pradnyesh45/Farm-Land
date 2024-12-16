@@ -13,12 +13,13 @@ class FarmRepository:
 
     @staticmethod
     def get_by_farmer_id(farmer_id: int) -> List[FarmHelper]:
-        farms = FarmModel.query.filter_by(farmer_id=farmer_id).all()
+        farms = FarmModel.query.filter_by(farmer_id=farmer_id)\
+            .order_by(FarmModel.updated_at.desc()).all()
         return FarmMapper.to_helper_list(farms)
 
     @staticmethod
     def get_all() -> List[FarmHelper]:
-        farms = FarmModel.query.all()
+        farms = FarmModel.query.order_by(FarmModel.updated_at.desc()).all()
         return FarmMapper.to_helper_list(farms)
 
     @staticmethod

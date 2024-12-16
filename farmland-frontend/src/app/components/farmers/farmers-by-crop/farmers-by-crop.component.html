@@ -1,0 +1,38 @@
+<div class="farmers-by-crop">
+  <h2>Search Farmers by Crop</h2>
+
+  <div class="search-section">
+    <div class="search-input">
+      <input
+        type="text"
+        [(ngModel)]="cropType"
+        placeholder="Enter crop type..."
+        (keyup.enter)="searchFarmers()"
+      />
+      <button (click)="searchFarmers()" [disabled]="isLoading">
+        {{ isLoading ? "Searching..." : "Search" }}
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div *ngIf="isLoading" class="loading">Loading farmers...</div>
+
+  <div *ngIf="!isLoading && farmers.length > 0" class="farmers-grid">
+    <div *ngFor="let farmer of farmers" class="farmer-card">
+      <h3>{{ farmer.name }}</h3>
+      <p><strong>Phone:</strong> {{ farmer.phone_number }}</p>
+      <p><strong>Language:</strong> {{ farmer.language }}</p>
+    </div>
+  </div>
+
+  <div
+    *ngIf="!isLoading && !error && farmers.length === 0 && cropType"
+    class="no-results"
+  >
+    No farmers found growing {{ cropType }}
+  </div>
+</div>

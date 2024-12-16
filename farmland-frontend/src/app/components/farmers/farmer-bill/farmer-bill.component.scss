@@ -1,0 +1,31 @@
+.bill-container {
+  padding: 20px;
+}
+
+.farms-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.farm-card {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.total-cost {
+  text-align: right;
+  font-size: 1.2em;
+  margin-top: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.cost {
+  color: #28a745;
+  font-weight: bold;
+}

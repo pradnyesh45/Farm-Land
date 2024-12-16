@@ -1,0 +1,27 @@
+<div class="bill-container">
+  <div *ngIf="isLoading" class="loading">Loading bill...</div>
+
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <div *ngIf="bill" class="bill-details">
+    <h2>Bill for {{ bill.farmer_name }}</h2>
+
+    <div class="farms-list">
+      <div *ngFor="let farm of bill.farms" class="farm-card">
+        <h3>Farm: {{ farm.village }}</h3>
+        <p><strong>Crop:</strong> {{ farm.crop }}</p>
+        <p><strong>Area:</strong> {{ farm.area }} acres</p>
+        <p><strong>Fertilizer:</strong> {{ farm.fertilizer_type }}</p>
+        <p>
+          <strong>Quantity:</strong> {{ farm.quantity }}
+          {{ farm.quantity_unit }}
+        </p>
+        <p class="cost"><strong>Cost:</strong> ₹{{ farm.cost }}</p>
+      </div>
+    </div>
+
+    <div class="total-cost">
+      <h3>Total Cost: ₹{{ bill.total_cost }}</h3>
+    </div>
+  </div>
+</div>

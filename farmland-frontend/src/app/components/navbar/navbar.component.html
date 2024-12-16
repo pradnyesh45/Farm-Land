@@ -1,0 +1,15 @@
+<nav class="navbar" *ngIf="authService.isAuthenticated()">
+  <div class="navbar-brand">
+    <a routerLink="/">FarmLand</a>
+  </div>
+
+  <div class="navbar-menu">
+    <button class="back-btn" *ngIf="!isHomePage()" (click)="goToHome()">
+      Back to Home
+    </button>
+    <span class="username" *ngIf="authService.getUserRole()">
+      {{ authService.getUserRole() }}
+    </span>
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+</nav>

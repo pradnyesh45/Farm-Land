@@ -20,7 +20,7 @@ class FarmerRepository:
 
     @staticmethod
     def get_all() -> List[FarmerHelper]:
-        farmers = FarmerModel.query.all()
+        farmers = FarmerModel.query.order_by(FarmerModel.updated_at.desc()).all()
         return FarmerMapper.to_helper_list(farmers)
 
     @staticmethod

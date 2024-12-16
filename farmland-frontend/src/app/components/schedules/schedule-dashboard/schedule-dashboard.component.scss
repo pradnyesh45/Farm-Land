@@ -1,0 +1,64 @@
+.schedule-dashboard {
+  padding: 20px;
+
+  h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+
+.error-message {
+  color: #dc3545;
+  padding: 10px;
+  background-color: #f8d7da;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.schedules-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.schedule-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+
+  .schedule-header {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+
+    h3 {
+      margin: 0;
+      color: #2c3e50;
+    }
+  }
+
+  .schedule-details {
+    p {
+      margin: 8px 0;
+      color: #666;
+
+      strong {
+        color: #333;
+      }
+    }
+  }
+}
+
+.no-schedules {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  grid-column: 1 / -1;
+}

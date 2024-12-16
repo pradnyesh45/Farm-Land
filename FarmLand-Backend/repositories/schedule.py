@@ -16,12 +16,13 @@ class ScheduleRepository:
 
     @staticmethod
     def get_by_farm_id(farm_id: int) -> List[ScheduleHelper]:
-        schedules = ScheduleModel.query.filter_by(farm_id=farm_id).all()
+        schedules = ScheduleModel.query.filter_by(farm_id=farm_id)\
+            .order_by(ScheduleModel.updated_at.desc()).all()
         return ScheduleMapper.to_helper_list(schedules)
 
     @staticmethod
     def get_all() -> List[ScheduleHelper]:
-        schedules = ScheduleModel.query.all()
+        schedules = ScheduleModel.query.order_by(ScheduleModel.updated_at.desc()).all()
         return ScheduleMapper.to_helper_list(schedules)
 
     @staticmethod
@@ -41,9 +42,11 @@ class ScheduleRepository:
         if not model:
             raise Exception(ScheduleHelper.Errors.SCHEDULE_NOT_FOUND)
         
-        model.task = helper.task
-        model.scheduled_date = helper.scheduled_date
-        model.status = helper.status
+        model.farm_id = helper.farm_id
+        model.days_after_sowing = helper.days_after_sowing
+        model.fertilizer_type = helper.fertilizer_type
+        model.quantity = helper.quantity
+        model.quantity_unit = helper.quantity_unit
         
         try:
             PostgresUtils.db.session.commit()

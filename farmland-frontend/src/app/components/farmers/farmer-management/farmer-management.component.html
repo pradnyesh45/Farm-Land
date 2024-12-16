@@ -1,0 +1,72 @@
+<div class="farmer-management">
+  <h2>Farmer Management</h2>
+
+  <!-- Create/Edit Farmer Form -->
+  <div class="farmer-form" *ngIf="isAdmin()">
+    <h3>{{ editingFarmer ? "Edit Farmer" : "Add New Farmer" }}</h3>
+    <form (ngSubmit)="saveFarmer()">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          id="name"
+          [(ngModel)]="currentFarmer.name"
+          name="name"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input
+          type="text"
+          id="phone"
+          [(ngModel)]="currentFarmer.phone_number"
+          name="phone_number"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="language">Language</label>
+        <input
+          type="text"
+          id="language"
+          [(ngModel)]="currentFarmer.language"
+          name="language"
+          required
+        />
+      </div>
+
+      <div *ngIf="error" class="error-message">{{ error }}</div>
+      <div *ngIf="success" class="success-message">{{ success }}</div>
+
+      <div class="button-group">
+        <button type="submit" [disabled]="isLoading">
+          {{ isLoading ? "Saving..." : editingFarmer ? "Update" : "Add" }}
+        </button>
+        <button *ngIf="editingFarmer" type="button" (click)="cancelEdit()">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Farmer List -->
+  <div class="farmer-list">
+    <h3>Farmers</h3>
+    <div class="farmer-grid">
+      <div *ngFor="let farmer of farmers" class="farmer-card">
+        <h4>{{ farmer.name }}</h4>
+        <p>Phone: {{ farmer.phone_number }}</p>
+        <p>Language: {{ farmer.language }}</p>
+        <div class="button-group" *ngIf="isAdmin()">
+          <button class="edit-btn" (click)="editFarmer(farmer)">Edit</button>
+          <button class="delete-btn" (click)="deleteFarmer(farmer)">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

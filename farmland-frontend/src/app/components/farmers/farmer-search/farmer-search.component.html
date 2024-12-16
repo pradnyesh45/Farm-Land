@@ -1,0 +1,18 @@
+<div class="farmers-container">
+  <h2>All Farmers</h2>
+
+  <div *ngIf="isLoading" class="loading">Loading farmers...</div>
+
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <div class="farmers-grid">
+    <div *ngFor="let farmer of farmers" class="farmer-card">
+      <h3>{{ farmer.name }}</h3>
+      <p><strong>Phone:</strong> {{ farmer.phone_number }}</p>
+      <p><strong>Language:</strong> {{ farmer.language }}</p>
+      <a [routerLink]="['/farmers', farmer.id, 'bill']" class="view-bill">
+        View Bill
+      </a>
+    </div>
+  </div>
+</div>

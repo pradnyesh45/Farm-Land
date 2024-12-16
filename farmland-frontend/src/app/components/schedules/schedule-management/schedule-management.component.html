@@ -1,0 +1,104 @@
+<div class="schedule-management">
+  <h2>Schedule Management</h2>
+
+  <!-- Create/Edit Schedule Form -->
+  <div class="schedule-form" *ngIf="isAdmin()">
+    <h3>{{ editingSchedule ? "Edit Schedule" : "Add New Schedule" }}</h3>
+    <form (ngSubmit)="saveSchedule()">
+      <div class="form-group">
+        <label for="farm">Farm</label>
+        <select
+          id="farm"
+          [(ngModel)]="currentSchedule.farm_id"
+          name="farm_id"
+          required
+        >
+          <option [value]="null">Select Farm</option>
+          <option *ngFor="let farm of farms" [value]="farm.id">
+            {{ getFarmLabel(farm) }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="days">Days After Sowing</label>
+        <input
+          type="number"
+          id="days"
+          [(ngModel)]="currentSchedule.days_after_sowing"
+          name="days_after_sowing"
+          required
+          min="0"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="fertilizer">Fertilizer Type</label>
+        <input
+          type="text"
+          id="fertilizer"
+          [(ngModel)]="currentSchedule.fertilizer_type"
+          name="fertilizer_type"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <input
+          type="number"
+          id="quantity"
+          [(ngModel)]="currentSchedule.quantity"
+          name="quantity"
+          required
+          step="0.01"
+          min="0"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="unit">Quantity Unit</label>
+        <input
+          type="text"
+          id="unit"
+          [(ngModel)]="currentSchedule.quantity_unit"
+          name="quantity_unit"
+          required
+        />
+      </div>
+
+      <div *ngIf="error" class="error-message">{{ error }}</div>
+      <div *ngIf="success" class="success-message">{{ success }}</div>
+
+      <div class="button-group">
+        <button type="submit" [disabled]="isLoading">
+          {{ isLoading ? "Saving..." : editingSchedule ? "Update" : "Add" }}
+        </button>
+        <button *ngIf="editingSchedule" type="button" (click)="cancelEdit()">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Schedule List -->
+  <div class="schedule-list">
+    <h3>Schedules</h3>
+    <div class="schedule-grid">
+      <div *ngFor="let schedule of schedules" class="schedule-card">
+        <h4>{{ getFarmLabel(getFarmById(schedule.farm_id)) }}</h4>
+        <p>Days After Sowing: {{ schedule.days_after_sowing }}</p>
+        <p>Fertilizer: {{ schedule.fertilizer_type }}</p>
+        <p>Quantity: {{ schedule.quantity }} {{ schedule.quantity_unit }}</p>
+        <div class="button-group" *ngIf="isAdmin()">
+          <button class="edit-btn" (click)="editSchedule(schedule)">
+            Edit
+          </button>
+          <button class="delete-btn" (click)="deleteSchedule(schedule)">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

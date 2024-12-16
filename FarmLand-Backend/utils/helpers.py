@@ -5,7 +5,7 @@ FERTILIZER_PRICES: Dict[str, float] = {
     'Urea': 100,
     'DAP': 150,
     'NPK': 200,
-    'Micronutrient': 250,
+    'Micronutrients': 250,
 }
 
 def calculate_fertilizer_cost(fertilizer_type: str, quantity: float, area: float) -> float:

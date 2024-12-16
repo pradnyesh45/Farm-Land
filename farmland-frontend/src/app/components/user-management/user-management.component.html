@@ -1,0 +1,64 @@
+<div class="user-management">
+  <h2>Account Management</h2>
+
+  <!-- Create Account Form -->
+  <div class="create-account" *ngIf="canCreateAccounts()">
+    <h3>Create New Account</h3>
+    <form (ngSubmit)="createAccount()">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          [(ngModel)]="newUser.username"
+          name="username"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          [(ngModel)]="newUser.password"
+          name="password"
+          required
+        />
+      </div>
+
+      <div class="form-group" *ngIf="isSuperUser()">
+        <label>
+          <input type="checkbox" [(ngModel)]="isAdminAccount" name="isAdmin" />
+          Create as Admin
+        </label>
+      </div>
+
+      <div *ngIf="error" class="error-message">{{ error }}</div>
+      <div *ngIf="success" class="success-message">{{ success }}</div>
+
+      <button type="submit" [disabled]="isLoading">
+        {{ isLoading ? "Creating..." : "Create Account" }}
+      </button>
+    </form>
+  </div>
+
+  <!-- User List -->
+  <div class="user-list" *ngIf="users.length > 0">
+    <h3>Existing Accounts</h3>
+    <div class="user-grid">
+      <div *ngFor="let user of users" class="user-card">
+        <h4>{{ user.username }}</h4>
+        <p>Role: {{ user.role }}</p>
+        <button
+          *ngIf="canDeleteUser(user)"
+          class="delete-btn"
+          (click)="deleteUser(user)"
+          [disabled]="isLoading"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

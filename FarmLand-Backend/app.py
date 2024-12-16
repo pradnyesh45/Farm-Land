@@ -12,6 +12,7 @@ import os
 from dotenv import load_dotenv
 import logging
 from sqlalchemy import text
+from flask_cors import CORS
 
 # Configure logging
 logging.basicConfig(
@@ -23,6 +24,7 @@ load_dotenv()
 
 def create_app():
     app = Flask(__name__)
+    CORS(app)
 
     # Database Configuration
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
