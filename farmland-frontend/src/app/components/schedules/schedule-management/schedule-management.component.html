@@ -34,13 +34,17 @@
 
       <div class="form-group">
         <label for="fertilizer">Fertilizer Type</label>
-        <input
-          type="text"
+        <select
           id="fertilizer"
           [(ngModel)]="currentSchedule.fertilizer_type"
           name="fertilizer_type"
           required
-        />
+        >
+          <option [value]="null">Select Fertilizer Type</option>
+          <option *ngFor="let type of fertilizerTypes" [value]="type">
+            {{ type }} (₹{{ fertilizerPrices[type] }}/unit)
+          </option>
+        </select>
       </div>
 
       <div class="form-group">

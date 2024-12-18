@@ -29,6 +29,15 @@ export class ScheduleManagementComponent implements OnInit {
   error = '';
   success = '';
 
+  fertilizerTypes: string[] = ['Urea', 'DAP', 'NPK', 'Micronutrients'];
+
+  fertilizerPrices: { [key: string]: number } = {
+    Urea: 100,
+    DAP: 150,
+    NPK: 200,
+    Micronutrients: 250,
+  };
+
   constructor(
     private scheduleService: ScheduleService,
     private farmService: FarmService,
